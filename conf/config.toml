@@ -27,3 +27,6 @@ maxActive = 30
 idleTimeout = 200
 cluster = 0
 dBNumber = 0
+
+[signGrpc]
+host = "127.0.0.1:9090"

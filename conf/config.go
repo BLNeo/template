@@ -14,10 +14,15 @@ type App struct {
 	JwtSecret  string `toml:"jwtSecret"`
 }
 
+type SignGrpc struct {
+	Host string `toml:"host"`
+}
+
 type Config struct {
-	App   *App
-	Mysql *mysql.Instance
-	Http  *http.Instance
+	App      *App
+	Mysql    *mysql.Instance
+	Http     *http.Instance
+	SignGrpc *SignGrpc
 }
 
 func Init() error {

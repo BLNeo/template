@@ -2,18 +2,21 @@ package server
 
 import (
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"template/conf"
 	"template/models"
 	"template/router"
+	"template/tool/grpc_server"
 	"template/tool/log"
 	"template/tool/mysql"
 	"template/tool/util"
 )
 
 type Server struct {
-	gin *gin.Engine // 路由服务
-	db  *gorm.DB    // db数据库服务
+	gin          *gin.Engine      // 路由服务
+	db           *gorm.DB         // db数据库服务
+	signGrpcConn *grpc.ClientConn // signGrpc客户端
 }
 
 func NewServer() *Server {
@@ -39,6 +42,12 @@ func (s *Server) Init(conf *conf.Config) error {
 	gin.SetMode(conf.Http.Mode)
 	s.gin = gin.Default()
 	router.InitRouter(s.gin)
+
+	// signGrpc
+	s.signGrpcConn, err = grpc_server.InitSignGrpcConn(conf.SignGrpc.Host)
+	if err != nil {
+		return err
+	}
 
 	log.Logger.Info("server init success")
 	return nil
