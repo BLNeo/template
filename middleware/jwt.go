@@ -17,7 +17,7 @@ func JWT() gin.HandlerFunc {
 		if token == "" {
 			token = c.Query("token")
 		}
-		enabled, err := service.NewSignRpcService().VerifyToken(token)
+		err := service.NewSignRpcService().VerifyToken(token)
 		if err != nil {
 			log.Logger.Error(err.Error())
 			code = e.ErrorAuth
