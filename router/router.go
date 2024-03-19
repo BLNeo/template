@@ -23,4 +23,5 @@ func testRoute(rg *gin.RouterGroup) {
 
 func bookRoute(rg *gin.RouterGroup) {
 	rg.POST("/add", bookctl.AddBook)
+	rg.GET("/list", bookctl.ListBook)
 }
