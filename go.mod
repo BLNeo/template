@@ -1,8 +1,11 @@
 module template
 
-go 1.21
+go 1.21.1
+
+toolchain go1.21.4
 
 require (
+	github.com/BLNeo/protobuf-grpc-file v1.0.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis v6.15.9+incompatible
@@ -10,7 +13,7 @@ require (
 	github.com/spf13/viper v1.17.0
 	github.com/swaggo/gin-swagger v1.3.2
 	go.uber.org/zap v1.21.0
-	google.golang.org/grpc v1.59.0
+	google.golang.org/grpc v1.62.1
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.5.4
 	gorm.io/gorm v1.25.7
@@ -33,7 +36,7 @@ require (
 	github.com/go-playground/validator/v10 v10.16.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
-	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -70,8 +73,8 @@ require (
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/tools v0.16.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20231120223509-83a465c0220f // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240123012728-ef4313101c80 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

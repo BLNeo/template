@@ -1,12 +1,13 @@
 package server
 
 import (
+	signPb "github.com/BLNeo/protobuf-grpc-file/sign"
 	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"template/conf"
 	"template/models"
 	"template/router"
+	"template/service"
 	"template/tool/grpc_server"
 	"template/tool/log"
 	"template/tool/mysql"
@@ -14,9 +15,9 @@ import (
 )
 
 type Server struct {
-	gin          *gin.Engine      // 路由服务
-	db           *gorm.DB         // db数据库服务
-	signGrpcConn *grpc.ClientConn // signGrpc客户端
+	gin        *gin.Engine       // 路由服务
+	db         *gorm.DB          // db数据库服务
+	signClient signPb.SignClient // signRpc客户端
 }
 
 func NewServer() *Server {
@@ -44,10 +45,12 @@ func (s *Server) Init(conf *conf.Config) error {
 	router.InitRouter(s.gin)
 
 	// signGrpc
-	s.signGrpcConn, err = grpc_server.InitSignGrpcConn(conf.SignGrpc.Host)
+	signGrpcConn, err := grpc_server.InitSignGrpcConn(conf.SignGrpc.Host)
 	if err != nil {
 		return err
 	}
+	s.signClient = signPb.NewSignClient(signGrpcConn)
+	service.InitSignRpcClient(s.signClient)
 
 	log.Logger.Info("server init success")
 	return nil
