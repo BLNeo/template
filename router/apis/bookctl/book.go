@@ -2,40 +2,39 @@ package bookctl
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"template/models/book"
 	"template/service/book_service"
-	"template/tool/e"
+	"template/tool/response"
+	"template/tool/util"
 )
 
 func AddBook(c *gin.Context) {
-	appG := e.Gin{C: c}
+
 	in := &book.AddBookRequest{}
-	if err := c.ShouldBindJSON(in); err != nil {
-		appG.Response(http.StatusOK, e.InvalidParams, nil)
+	if err := util.ValidParams(c, in); err != nil {
+		response.BadRequest(c, err.Error())
 		return
 	}
 
 	err := book_service.NewBookService().Create(in)
 	if err != nil {
-		appG.Response(http.StatusOK, e.ERROR, nil)
+		response.InternalError(c, err.Error())
 		return
 	}
-	appG.Response(http.StatusOK, e.SUCCESS, nil)
+	response.Success(c, nil)
 }
 
 func ListBook(c *gin.Context) {
-	appG := e.Gin{C: c}
 	in := &book.ListBookRequest{}
-	if err := c.ShouldBindQuery(in); err != nil {
-		appG.Response(http.StatusOK, e.InvalidParams, nil)
+	if err := util.ValidParams(c, in); err != nil {
+		response.BadRequest(c, err.Error())
 		return
 	}
-
+	in.UserId = util.UserId(c)
 	date, err := book_service.NewBookService().List(in)
 	if err != nil {
-		appG.Response(http.StatusOK, e.ERROR, nil)
+		response.InternalError(c, err.Error())
 		return
 	}
-	appG.Response(http.StatusOK, e.SUCCESS, date)
+	response.Success(c, date)
 }

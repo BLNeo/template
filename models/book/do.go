@@ -7,6 +7,7 @@ type AddBookRequest struct {
 }
 
 type ListBookRequest struct {
+	UserId int64 `json:"user_id"`
 }
 
 type ListBookRespond struct {

@@ -5,11 +5,14 @@ import (
 	"template/conf"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 var jwtSecret []byte
 var once sync.Once
+
+const TokenExpiresAt = time.Hour * 24
+const Issuer = "blneo"
 
 func InitJwtSecret() {
 	once.Do(func() {
@@ -18,28 +21,23 @@ func InitJwtSecret() {
 }
 
 type Claims struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	jwt.StandardClaims
+	UserId   int64  `json:"user_id"`
+	UserName string `json:"user_name"`
+	jwt.RegisteredClaims
 }
 
-func GenerateToken(username, password string) (string, error) {
-	nowTime := time.Now()
-	expireTime := nowTime.Add(3 * time.Hour)
-
+func GenerateToken(userId int64, userName string) (string, error) {
 	claims := Claims{
-		username,
-		password,
-		jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(),
-			Issuer:    "blneo",
+		userId,
+		userName,
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(TokenExpiresAt)),
+			Issuer:    Issuer, // 发行人
 		},
 	}
 
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := tokenClaims.SignedString(jwtSecret)
-
-	return token, err
+	return tokenClaims.SignedString(jwtSecret)
 }
 
 func ParseToken(token string) (*Claims, error) {
