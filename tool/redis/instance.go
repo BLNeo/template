@@ -8,13 +8,13 @@ import (
 	"sync"
 )
 
-type Instance struct {
-	DBNumber    int      `toml:"db_number"` //
-	Addresses   []string `toml:"addresses"` // 连接地址
-	Password    string   `toml:"password"`
-	MaxIdle     int      `toml:"max_idle"`
-	MaxActive   int      `toml:"max_active"`
-	IdleTimeout int      `toml:"idle_timeout"`
+type Config struct {
+	DBNumber    int      `yaml:"dbNumber"`
+	Addresses   []string `yaml:"addresses"`
+	Password    string   `yaml:"password"`
+	MaxIdle     int      `yaml:"maxIdle"`
+	MaxActive   int      `yaml:"maxActive"`
+	IdleTimeout int      `yaml:"idleTimeout"`
 }
 
 var (
@@ -27,17 +27,17 @@ func GetRdb() *redis.Client {
 }
 
 // InitClient 初始化一个ENGIN
-func InitClient(i *Instance) error {
-	if len(i.Addresses) == 0 {
+func InitClient(in *Config) error {
+	if len(in.Addresses) == 0 {
 		return errors.New("addresses is empty")
 	}
 
 	client := redis.NewClient(&redis.Options{
-		Addr:           i.Addresses[0],
-		Password:       "",
-		DB:             0,
-		MaxActiveConns: i.MaxActive,
-		MaxIdleConns:   i.MaxIdle,
+		Addr:           in.Addresses[0],
+		Password:       in.Password,
+		DB:             in.DBNumber,
+		MaxActiveConns: in.MaxActive,
+		MaxIdleConns:   in.MaxIdle,
 	})
 
 	err := client.Ping(context.Background()).Err()

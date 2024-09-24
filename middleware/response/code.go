@@ -7,8 +7,9 @@ const (
 	InvalidParams = 400
 
 	Unauthorized = 20001
-	//ErrorAuthCheckTokenTimeout = 20002
-	//ErrorAuthToken             = 20003
+
+	ErrorAuthCheckTokenTimeout = 20002
+	ErrorAuthCheckTokenFail    = 20003
 	//ErrorAuth                  = 20004
 	//ErrorAuthNotExist          = 20005
 	//
@@ -21,6 +22,9 @@ var MsgFlags = map[int]string{
 	InvalidParams: "请求参数错误",
 
 	Unauthorized: "您需要先登录",
+
+	ErrorAuthCheckTokenTimeout: "Token已超时",
+	ErrorAuthCheckTokenFail:    "Token校验失败",
 }
 
 func GetMsg(code int) string {

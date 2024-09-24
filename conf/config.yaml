@@ -1,0 +1,37 @@
+app:
+  serverName: "tempalte"
+  jwtSecret: "xxxxx"
+  tokenIssuer : "xxxxx"
+  mode: "debug"
+
+http:
+  port: "8080"
+  readTimeout: 60
+  writeTimeout: 60
+
+mysql:
+  user: "root"
+  password: "123456"
+  host: "192.168.220.129:3306"
+  databaseName: "develop"
+  charset: "utf8mb4"
+  logShow: true
+
+redis:
+  addresses: [ "192.168.220.129:6379" ]
+  password: 123456
+  maxIdle: 30
+  maxActive: 30
+  idleTimeout: 200
+  cluster: 0
+  dBNumber: 0
+
+grpc:
+  port: "9090"
+
+emailNTES:
+  host: ""
+  user: ""
+  authCode: ""
+  port: 25
+

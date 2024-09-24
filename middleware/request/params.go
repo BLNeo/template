@@ -1,4 +1,4 @@
-package util
+package request
 
 import (
 	"errors"
@@ -47,7 +47,8 @@ func InitTrans() (err error) {
 }
 
 func ValidParams(c *gin.Context, params interface{}) error {
-	if err := c.ShouldBindBodyWith(params, binding.JSON); err != nil {
+
+	if err := c.ShouldBind(params); err != nil {
 		// 获取validator.ValidationErrors类型的errors
 		var errs validator.ValidationErrors
 		ok := errors.As(err, &errs)

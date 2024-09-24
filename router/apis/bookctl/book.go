@@ -2,16 +2,15 @@ package bookctl
 
 import (
 	"github.com/gin-gonic/gin"
+	"template/middleware/request"
+	"template/middleware/response"
 	"template/models/book"
 	"template/service/book_service"
-	"template/tool/response"
-	"template/tool/util"
 )
 
 func AddBook(c *gin.Context) {
-
 	in := &book.AddBookRequest{}
-	if err := util.ValidParams(c, in); err != nil {
+	if err := request.ValidParams(c, in); err != nil {
 		response.BadRequest(c, err.Error())
 		return
 	}
@@ -26,15 +25,17 @@ func AddBook(c *gin.Context) {
 
 func ListBook(c *gin.Context) {
 	in := &book.ListBookRequest{}
-	if err := util.ValidParams(c, in); err != nil {
+	if err := request.ValidParams(c, in); err != nil {
 		response.BadRequest(c, err.Error())
 		return
 	}
-	in.UserId = util.UserId(c)
-	date, err := book_service.NewBookService().List(in)
+	date, count, err := book_service.NewBookService().List(in)
 	if err != nil {
 		response.InternalError(c, err.Error())
 		return
 	}
-	response.Success(c, date)
+	response.Success(c, map[string]interface{}{
+		"list":  date,
+		"count": count,
+	})
 }

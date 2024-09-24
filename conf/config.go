@@ -2,33 +2,41 @@ package conf
 
 import (
 	"github.com/spf13/viper"
+	"template/tool/email"
 	"template/tool/http"
 	"template/tool/mysql"
+	"template/tool/redis"
 )
 
 var Conf *Config
 
 type App struct {
-	ServerName string `toml:"serverName"`
-	Debug      bool   `toml:"debug"`
-	JwtSecret  string `toml:"jwtSecret"`
+	Mode        string `yaml:"mode"`
+	ServerName  string `yaml:"serverName"`
+	JwtSecret   string `yaml:"jwtSecret"`
+	TokenIssuer string `yaml:"tokenIssuer"`
 }
 
-type SignGrpc struct {
-	Host string `toml:"host"`
+type Grpc struct {
+	Port string `yaml:"port"`
 }
 
 type Config struct {
-	App      *App
-	Mysql    *mysql.Instance
-	Http     *http.Instance
-	SignGrpc *SignGrpc
+	App       *App          `yaml:"app"`
+	Mysql     *mysql.Config `yaml:"mysql"`
+	Http      *http.Config  `yaml:"http"`
+	Grpc      *Grpc         `yaml:"grpc"`
+	Redis     *redis.Config `yaml:"redis"`
+	EmailNTES *email.Config `yaml:"emailNTES"`
 }
 
-func Init() error {
+func LoadConfig() error {
 	v := viper.New()
 	v.AddConfigPath("conf")
-	v.SetConfigType("toml")
+
+	v.SetConfigName("config")
+	v.SetConfigType("yaml")
+
 	err := v.ReadInConfig()
 	if err != nil {
 		return err

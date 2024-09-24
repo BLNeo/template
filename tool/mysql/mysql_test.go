@@ -5,7 +5,7 @@ import (
 )
 
 func TestMysql(t *testing.T) {
-	ins := &Instance{
+	ins := &Config{
 		User:         "root",
 		Password:     "123456",
 		Host:         "127.0.0.1:3306",

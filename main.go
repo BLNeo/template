@@ -8,7 +8,7 @@ import (
 // @title go项目模板
 // @version 1.0
 func main() {
-	if err := conf.Init(); err != nil {
+	if err := conf.LoadConfig(); err != nil {
 		panic(err)
 	}
 

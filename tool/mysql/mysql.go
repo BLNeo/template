@@ -7,16 +7,16 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-type Instance struct {
-	User         string `toml:"user"`
-	Password     string `toml:"password"`
-	Host         string `toml:"host"`
-	DatabaseName string `toml:"databaseName"`
-	Charset      string `toml:"charset"`
-	LogShow      bool   `toml:"logShow"`
+type Config struct {
+	User         string `yaml:"user"`
+	Password     string `yaml:"password"`
+	Host         string `yaml:"host"`
+	DatabaseName string `yaml:"databaseName"`
+	Charset      string `yaml:"charset"`
+	LogShow      bool   `yaml:"logShow"`
 }
 
-func InitEngine(ins *Instance) (*gorm.DB, error) {
+func InitEngine(ins *Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s&parseTime=True&loc=Local",
 		ins.User, ins.Password, ins.Host, ins.DatabaseName, ins.Charset)
 

@@ -7,17 +7,8 @@ import (
 	"time"
 )
 
-//[redis]
-//Addresses = "127.0.0.1:6379"
-//Password = ""
-//MaxIdle = 30
-//MaxActive = 30
-//IdleTimeout = 200
-//Cluster = 0
-//DBNumber = 7
-
 func TestRedis(t *testing.T) {
-	ins := &Instance{
+	ins := &Config{
 		DBNumber:  0,
 		Addresses: []string{"47.115.204.44:6379"},
 		Password:  "",

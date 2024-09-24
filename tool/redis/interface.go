@@ -15,11 +15,17 @@ func NewIRedis() IRedis {
 type IRedis interface {
 	Get(key string) string
 	Set(key, value string, expiration time.Duration) error
+	Del(key string) error
+	Incr(key string) (int64, error)
 	BFAdd(key, value string) error
 	BFExists(key, value string) bool
 }
 type Redis struct {
 	rdb *redis.Client
+}
+
+func (r *Redis) Del(key string) error {
+	return r.rdb.Del(context.Background(), key).Err()
 }
 
 func (r *Redis) Get(key string) string {
@@ -29,6 +35,10 @@ func (r *Redis) Get(key string) string {
 
 func (r *Redis) Set(key, value string, expiration time.Duration) error {
 	return r.rdb.Set(context.Background(), key, value, expiration).Err()
+}
+
+func (r *Redis) Incr(key string) (int64, error) {
+	return r.rdb.Incr(context.Background(), key).Result()
 }
 
 func (r *Redis) BFAdd(key, value string) error {

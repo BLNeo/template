@@ -11,16 +11,16 @@ func NewBookService() IBookService {
 
 type IBookService interface {
 	Create(in *book.AddBookRequest) error
-	List(in *book.ListBookRequest) ([]*book.ListBookRespond, error)
+	List(in *book.ListBookRequest) ([]*book.ListBookRespond, int64, error)
 }
 
 type BookService struct{}
 
-func (b *BookService) List(in *book.ListBookRequest) ([]*book.ListBookRespond, error) {
+func (b *BookService) List(in *book.ListBookRequest) ([]*book.ListBookRespond, int64, error) {
 	resp := make([]*book.ListBookRespond, 0)
-	date, err := book.NewIBook().List(in)
+	date, count, err := book.NewIBook().List(in)
 	if err != nil {
-		return resp, err
+		return resp, 0, err
 	}
 	for _, v := range date {
 		resp = append(resp, &book.ListBookRespond{
@@ -29,7 +29,7 @@ func (b *BookService) List(in *book.ListBookRequest) ([]*book.ListBookRespond, e
 			Price:    v.Price,
 		})
 	}
-	return resp, nil
+	return resp, count, nil
 }
 
 func (b *BookService) Create(in *book.AddBookRequest) error {
