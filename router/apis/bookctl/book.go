@@ -5,7 +5,7 @@ import (
 	"template/middleware/request"
 	"template/middleware/response"
 	"template/models/book"
-	"template/service/book_service"
+	"template/service/bookService"
 )
 
 func AddBook(c *gin.Context) {
@@ -15,7 +15,7 @@ func AddBook(c *gin.Context) {
 		return
 	}
 
-	err := book_service.NewBookService().Create(in)
+	err := bookService.NewBookService().Create(in)
 	if err != nil {
 		response.InternalError(c, err.Error())
 		return
@@ -29,7 +29,7 @@ func ListBook(c *gin.Context) {
 		response.BadRequest(c, err.Error())
 		return
 	}
-	date, count, err := book_service.NewBookService().List(in)
+	date, count, err := bookService.NewBookService().List(in)
 	if err != nil {
 		response.InternalError(c, err.Error())
 		return

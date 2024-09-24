@@ -30,7 +30,7 @@ func (b *Book) Get(in *GetBookInfoRequest) (*models.Book, error) {
 func (b *Book) List(in *ListBookRequest) ([]*models.Book, int64, error) {
 	date := make([]*models.Book, 0)
 	var count int64
-	err := b.db.Model(&models.Book{}).Offset((in.PageNum - 1) * in.PageSize).Limit(in.PageSize).Find(&date).Count(&count).Error
+	err := b.db.Model(&Book{}).Offset((in.PageNum - 1) * in.PageSize).Limit(in.PageSize).Find(&date).Count(&count).Error
 	return date, count, err
 }
 

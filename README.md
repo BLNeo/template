@@ -12,8 +12,6 @@ router 路由层
 
 server 服务初始化层(mysql、redis...)
 
-grpc 微服务链接
-
 service 业务逻辑层
 
 tool 工具层

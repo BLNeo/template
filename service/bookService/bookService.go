@@ -1,4 +1,4 @@
-package book_service
+package bookService
 
 import (
 	"template/models"
@@ -14,7 +14,8 @@ type IBookService interface {
 	List(in *book.ListBookRequest) ([]*book.ListBookRespond, int64, error)
 }
 
-type BookService struct{}
+type BookService struct {
+}
 
 func (b *BookService) List(in *book.ListBookRequest) ([]*book.ListBookRespond, int64, error) {
 	resp := make([]*book.ListBookRespond, 0)
