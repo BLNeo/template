@@ -11,7 +11,6 @@ import (
 	zhTranslations "github.com/go-playground/validator/v10/translations/zh"
 	"reflect"
 	"strings"
-	"template/tool/log"
 )
 
 var trans ut.Translator
@@ -53,7 +52,6 @@ func ValidParams(c *gin.Context, params interface{}) error {
 		var errs validator.ValidationErrors
 		ok := errors.As(err, &errs)
 		if !ok {
-			log.Logger.Error(err.Error())
 			return err
 		}
 		var sliceErrs []string

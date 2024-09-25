@@ -5,12 +5,12 @@ import (
 	"gorm.io/gorm"
 	"template/conf"
 	"template/middleware"
-	"template/middleware/request"
 	"template/models"
 	"template/router"
 	"template/tool/log"
 	"template/tool/mysql"
 	"template/tool/redis"
+	"template/tool/request"
 )
 
 type Server struct {

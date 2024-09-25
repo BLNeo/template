@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"sync"
 	"template/conf"
-	"template/middleware/response"
+	"template/tool/response"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"

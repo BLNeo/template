@@ -2,14 +2,13 @@ package bookctl
 
 import (
 	"github.com/gin-gonic/gin"
-	"template/middleware/request"
-	"template/middleware/response"
-	"template/models/book"
 	"template/service/bookService"
+	"template/tool/request"
+	"template/tool/response"
 )
 
 func AddBook(c *gin.Context) {
-	in := &book.AddBookRequest{}
+	in := &bookService.AddBookRequest{}
 	if err := request.ValidParams(c, in); err != nil {
 		response.BadRequest(c, err.Error())
 		return
@@ -24,7 +23,7 @@ func AddBook(c *gin.Context) {
 }
 
 func ListBook(c *gin.Context) {
-	in := &book.ListBookRequest{}
+	in := &bookService.ListBookRequest{}
 	if err := request.ValidParams(c, in); err != nil {
 		response.BadRequest(c, err.Error())
 		return

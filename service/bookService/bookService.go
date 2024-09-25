@@ -1,30 +1,34 @@
 package bookService
 
 import (
+	"template/dao"
 	"template/models"
-	"template/models/book"
 )
 
 func NewBookService() IBookService {
-	return &BookService{}
+	return &BookService{
+		Dao: dao.NewDao(),
+	}
 }
 
 type IBookService interface {
-	Create(in *book.AddBookRequest) error
-	List(in *book.ListBookRequest) ([]*book.ListBookRespond, int64, error)
+	Create(in *AddBookRequest) error
+	List(in *ListBookRequest) ([]*ListBookRespond, int64, error)
 }
 
 type BookService struct {
+	Dao dao.IDao // 数据库
+	// 缓存
 }
 
-func (b *BookService) List(in *book.ListBookRequest) ([]*book.ListBookRespond, int64, error) {
-	resp := make([]*book.ListBookRespond, 0)
-	date, count, err := book.NewIBook().List(in)
+func (b *BookService) List(in *ListBookRequest) ([]*ListBookRespond, int64, error) {
+	resp := make([]*ListBookRespond, 0)
+	date, count, err := b.Dao.Book().List(in.PageNum, in.PageSize)
 	if err != nil {
 		return resp, 0, err
 	}
 	for _, v := range date {
-		resp = append(resp, &book.ListBookRespond{
+		resp = append(resp, &ListBookRespond{
 			Name:     v.Name,
 			StoreNum: v.StoreNum,
 			Price:    v.Price,
@@ -33,11 +37,11 @@ func (b *BookService) List(in *book.ListBookRequest) ([]*book.ListBookRespond, i
 	return resp, count, nil
 }
 
-func (b *BookService) Create(in *book.AddBookRequest) error {
-	insertDate := &models.Book{
+func (b *BookService) Create(in *AddBookRequest) error {
+	insertDate := &models.TableBook{
 		Name:     in.Name,
 		StoreNum: in.StoreNum,
 		Price:    in.Price,
 	}
-	return book.NewIBook().Create(insertDate)
+	return b.Dao.Book().Create(insertDate)
 }

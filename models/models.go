@@ -24,7 +24,7 @@ func GetDb() *gorm.DB {
 }
 
 type Model struct {
-	ID        int32 `gorm:"primaryKey"`
+	ID        uint64 `gorm:"primaryKey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -33,7 +33,7 @@ type Model struct {
 // AutoMigrate 表同步
 func AutoMigrate() {
 	tables := []interface{}{
-		new(Book),
+		new(TableBook),
 	}
 	err := mysql.AutoMigrate(db, tables...)
 	if err != nil {

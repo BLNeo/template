@@ -1,6 +1,8 @@
-package book
+package bookService
 
-import "template/middleware/request"
+import (
+	"template/tool/request"
+)
 
 type AddBookRequest struct {
 	Name     string  `json:"name" binding:"required"`

@@ -3,7 +3,6 @@ package response
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"template/tool/log"
 )
 
 type Response struct {
@@ -45,8 +44,6 @@ func BadRequest(ctx *gin.Context, format string, v ...interface{}) {
 
 // InternalError 系统内部错误
 func InternalError(ctx *gin.Context, format string, v ...interface{}) {
-	// log记录
-	log.Logger.Error(format)
 	Output(ctx, ERROR, NewErrMessage(ERROR, format, v...))
 }
 
